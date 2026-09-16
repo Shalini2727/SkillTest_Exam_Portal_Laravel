@@ -1,26 +1,64 @@
 # SkillTest Exam Portal
 
-A Laravel 13 online examination portal matching the supplied reference screens, with the brand changed to SkillTest.
+SkillTest is a web-based online examination portal developed using Laravel and MySQL. It provides separate modules for administrators and students to manage and conduct online assessments.
 
-## Requirements
-PHP 8.3+, Composer, MySQL/XAMPP.
+## 🚀 Features
 
-## Setup
-1. Extract the ZIP.
-2. Open the extracted folder in VS Code.
-3. Run `composer install`.
-4. Copy `.env.example` to `.env`.
-5. Create a MySQL database named `skilltest` in phpMyAdmin.
-6. Run `php artisan key:generate`.
-7. Run `php artisan migrate --seed`.
-8. Run `php artisan serve`.
-9. Open http://127.0.0.1:8000
+### Admin Module
+- Admin login and authentication
+- Dashboard for managing examination data
+- College management
+- Student management
+- Question bank management
+- Exam paper creation
+- Exam assignment to students
+- Exam reports and results
 
-## Demo accounts
-Admin: admin@skilltest.com / password
-Student: student@skilltest.com / password
+### Student Module
+- Student registration and login
+- Student dashboard
+- View assigned examinations
+- Timed MCQ-based examinations
+- Automatic answer evaluation
+- Score and percentage calculation
+- Pass/Fail result generation
+- View examination results
 
-## Main functionality
-Admin login, dashboard, colleges, students, categories, question bank, exam-paper generation, exam assignment, exam report and results.
+## 🛠️ Technology Stack
 
-Student registration/login, assigned exams, timed MCQ exam, automatic marking and result.
+- **Backend:** PHP, Laravel 13
+- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap
+- **Database:** MySQL
+- **Tools:** XAMPP, phpMyAdmin, Composer
+- **Architecture:** MVC (Model-View-Controller)
+
+## 🗄️ Database
+
+The application uses MySQL with Laravel migrations and seeders.
+
+Main entities include:
+
+- Colleges
+- Students
+- Admins
+- Questions
+- Exam Papers
+- Exam Questions
+- Exam Assignments
+- Results
+
+## ⚙️ Installation & Setup
+
+### Requirements
+
+- PHP 8.3+
+- Composer
+- MySQL
+- XAMPP
+
+### Steps
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Shalini2727/SkillTest_Exam_Portal_Laravel.git
