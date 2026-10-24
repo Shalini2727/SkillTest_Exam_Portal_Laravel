@@ -41,6 +41,13 @@ RUN sed -ri 's!/var/www/html!/var/www/html/public!g' \
     && printf '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\n</Directory>\n' \
     > /etc/apache2/conf-available/laravel.conf \
     && a2enconf laravel \
+# Create Laravel runtime directories
+RUN mkdir -p \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
