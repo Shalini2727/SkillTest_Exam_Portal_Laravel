@@ -6,7 +6,7 @@ export default defineConfig({
         outDir: 'public/build',
         emptyOutDir: true,
         rollupOptions: {
-            input: {}
+            input: 'public/css/student.css'
         }
     }
 });
