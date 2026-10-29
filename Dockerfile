@@ -1,5 +1,5 @@
 
-# Stage 1: Build Laravel frontend assets
+# Stage 1: Build frontend assets
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
@@ -10,8 +10,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-
-# Stage 2: Run Laravel using PHP and Apache
+# Stage 2: Run Laravel with PHP and Apache
 FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \
@@ -29,18 +28,8 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Copy compiled CSS and JavaScript
 COPY --from=frontend /app/public/build ./public/build
 
-# Install production PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Configure Apache to serve Laravel's public directory
-RUN sed -ri 's!/var/www/html!/var/www/html/public!g' \
-    /etc/apache2/sites-available/000-default.conf \
-    && printf '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\n</Directory>\n' \
-    > /etc/apache2/conf-available/laravel.conf \
-    && a2enconf laravel \
 # Create Laravel runtime directories
 RUN mkdir -p \
     storage/framework/cache/data \
@@ -50,6 +39,15 @@ RUN mkdir -p \
     bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
+
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Configure Apache
+RUN sed -ri 's!/var/www/html!/var/www/html/public!g' \
+    /etc/apache2/sites-available/000-default.conf \
+    && printf '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\n</Directory>\n' \
+    > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
 
 EXPOSE 10000
 
