@@ -13,10 +13,7 @@
 
     <style>
 
-        /* =========================================
-           ACCOUNT TYPE MODAL
-        ========================================== */
-
+        /*ACCOUNT TYPE MODAL*/
         .account-modal {
             position: fixed;
             inset: 0;
@@ -184,7 +181,6 @@
 
 
         /*ACCOUNT TYPE NAVBAR BUTTON*/
-
         .account-type-btn {
             cursor: pointer;
             text-decoration: none;
@@ -234,7 +230,6 @@
 
 
                 <!-- STUDENT -->
-
                 <a
                     href="{{ route('student.login') }}"
                     class="account-option student-option"
@@ -256,7 +251,6 @@
 
 
                 <!-- ADMIN -->
-
                 <a
                     href="{{ url('/admin/login') }}"
                     class="account-option admin-option"
@@ -293,10 +287,7 @@
 
 
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-
+    <!--NAVBAR-->
     <header class="landing-header">
 
         <div class="landing-brand">
@@ -491,7 +482,6 @@
 
 
             <!-- HERO VISUAL -->
-
             <div class="hero-visual">
 
                 <div class="glow-circle circle-one"></div>
@@ -663,7 +653,6 @@
 
 
         <!--FEATURES-->
-
         <section
             id="features"
             class="features-section"
@@ -996,7 +985,6 @@
 
 
     <!--ACCOUNT MODAL JAVASCRIPT-->
-
     <script>
 
 
