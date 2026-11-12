@@ -1,16 +1,15 @@
 
-# Stage 1: Build frontend assets
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
 COPY . .
 RUN npm run build
 
-# Stage 2: Run Laravel with PHP and Apache
+
 FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \
@@ -30,7 +29,12 @@ COPY . .
 
 COPY --from=frontend /app/public/build ./public/build
 
-# Create Laravel runtime directories
+RUN composer install \
+    --no-dev \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-interaction
+
 RUN mkdir -p \
     storage/framework/cache/data \
     storage/framework/sessions \
@@ -40,15 +44,15 @@ RUN mkdir -p \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Configure Apache
 RUN sed -ri 's!/var/www/html!/var/www/html/public!g' \
     /etc/apache2/sites-available/000-default.conf \
     && printf '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\n</Directory>\n' \
     > /etc/apache2/conf-available/laravel.conf \
     && a2enconf laravel
 
+RUN sed -i 's/Listen 80/Listen 10000/' /etc/apache2/ports.conf \
+    && sed -i 's/:80>/:10000>/' /etc/apache2/sites-available/000-default.conf
+
 EXPOSE 10000
 
-CMD ["sh", "-c", "mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache && chmod -R 775 storage bootstrap/cache && sed -i 's/Listen 80/Listen 10000/' /etc/apache2/ports.conf && sed -i 's/:80>/:10000>/' /etc/apache2/sites-available/000-default.conf && apache2-foreground"]
+CMD ["apache2-foreground"]
